@@ -206,115 +206,47 @@
         }
 
         .card-back {
-            background: linear-gradient(135deg, #E88EAD 0%, #D6A5C2 50%, #C9A0DC 100%);
-            transform: rotateY(180deg);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            color: white;
-            overflow: hidden;
-            position: absolute;
-            inset: 0;
+            justify-content: flex-start;
+            padding: 14px;
         }
 
         .card-name {
-            font-size: 1.6em;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 20px;
-            color: white;
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            font-size: 1.3em;
+            margin-bottom: 10px;
         }
 
-
         .card-powers {
-            overflow-y: auto;
-            max-height: 100%;
-            padding-right: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
         .power-item {
-            background: rgba(255, 255, 255, 0.3);
-            padding: 12px;
-            border-radius: 15px;
-            border-left: 4px solid white;
+            padding: 8px;
         }
 
         .power-title {
-            font-weight: 600;
-            color: white;
-            margin-bottom: 5px;
-            font-size: 1.1em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            font-size: 0.95em;
+            margin-bottom: 3px;
         }
 
         .power-description {
-            line-height: 1.4;
-            font-size: 0.95em;
+            font-size: 0.8em;
+            line-height: 1.25;
         }
 
-        .loading {
-            text-align: center;
-            color: white;
-            font-size: 1.4em;
-            margin-top: 50px;
-            text-shadow: 2px 2px 4px rgba(232, 142, 173, 0.5);
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2em;
-            }
-
-            .subtitle {
-                font-size: 0.95em;
-            }
-
-            .cards-container {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-                gap: 20px;
-            }
-
-            .card-name {
-                font-size: 1.3em;
-                margin-bottom: 15px;
-            }
-
-            .power-item {
-                padding: 10px;
-            }
-
-            .power-title {
-                font-size: 1em;
-            }
-
-            .power-description {
-                font-size: 0.9em;
-            }
-        }
 
         @media (max-width: 480px) {
-            .cards-container {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
-            }
-
             .card-name {
                 font-size: 1.1em;
             }
 
-            .power-item {
-                padding: 8px;
-                gap: 10px;
-            }
-
             .power-title {
-                font-size: 0.95em;
+                font-size: 0.85em;
             }
 
             .power-description {
-                font-size: 0.85em;
+                font-size: 0.75em;
             }
         }
     </style>
@@ -352,24 +284,24 @@
         for (let i = 0; i < 40; i++) {
             createGlitter();
         }
-
+        
+        // fazer tocar musiquinha de fundo
         const music = document.getElementById('backgroundMusic');
         const musicControl = document.getElementById('musicControl');
-        let isPlaying = false;
 
-        musicControl.addEventListener('click', async () => {
-            try {
-                if (!isPlaying) {
-                    music.volume = 0.4;
-                    await music.play();
+        music.volume = 0.4;
+        music.preload = 'auto';
+
+        musicControl.addEventListener('click', () => {
+            if (music.paused) {
+                music.play().then(() => {
                     musicControl.textContent = '🔇';
-                } else {
-                    music.pause();
-                    musicControl.textContent = '🎵';
-                }
-                isPlaying = !isPlaying;
-            } catch (e) {
-                console.log('Erro ao tocar áudio:', e);
+                }).catch(err => {
+                    console.log('Erro ao tocar áudio:', err);
+                });
+            } else {
+                music.pause();
+                musicControl.textContent = '🎵';
             }
         });
 
